@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { registerInputValidation } from "../../middleware/inputValidation";
-import { registerUser } from "./auth.service";
+import { logoutSession, registerUser } from "./auth.service";
 import { loginLimiter, registerLimiter } from "../../middleware/rateLimiter";
 import { loginInputValidation } from "../../middleware/inputValidation";
 import { loginUser } from "./auth.service";
+import { requireAuth, AuthRequest } from "../../middleware/requireAuth";
+import { getCurrentUser } from "./auth.service";
 
 const router = Router();
 
@@ -39,7 +41,7 @@ router.post("/register", registerLimiter, async (req, res) => {
     }
 });
 
-router.get("/login", loginLimiter, async (req, res) => {
+router.post("/login", loginLimiter, async (req, res) => {
     try {
         const validationResult = loginInputValidation.safeParse(req.body)
 
@@ -83,6 +85,43 @@ router.get("/login", loginLimiter, async (req, res) => {
         });
     }
 })
+
+router.get("/me", requireAuth, async (req: AuthRequest, res) => {
+    try {
+        const user = await getCurrentUser(req.user!.id)
+        if (!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+        return res.status(200).json({
+            message: "Success",
+            data: user,
+        });
+    } catch (error) {
+        console.error("Get Me Error:", error);
+        return res.status(500).json({ message: "Terjadi kesalahan internal server" });
+    }
+})
+
+router.post("/logout", requireAuth, async (req: AuthRequest, res) => {
+    try {
+        if (req.sessionId) {
+            await logoutSession(req.sessionId)
+        }
+        res.clearCookie("session_token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+        });
+        return res.status(200).json({
+            message: "Logout berhasil",
+        });
+    } catch (error) {
+        console.error("Logout Error:", error);
+        return res.status(500).json({ message: "Terjadi kesalahan internal server" });
+    }
+}
+)
 
 
 export default router;

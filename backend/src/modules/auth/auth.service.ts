@@ -95,3 +95,29 @@ export async function loginUser(data: { email: string, password: string }) {
         rawToken,
     };
 }
+
+export async function getCurrentUser(userId: string) {
+    return prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            accountStatus: true,
+            baseQuotaBytes: true,
+            usedBytes: true,
+            reservedBytes: true,
+            createdAt: true,
+        }
+
+    })
+}
+
+export async function logoutSession(sessionId: string) {
+    try {
+        await prisma.session.delete({
+            where: { id: sessionId }
+        })
+    } catch {
+    }
+}
