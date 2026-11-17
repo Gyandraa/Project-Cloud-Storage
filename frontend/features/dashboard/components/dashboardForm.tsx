@@ -12,7 +12,7 @@ export default function DashboardForm() {
     return (
         <div className="p-4 border rounded">
             <h1>Dashboard section</h1>
-            <p>Halo, <strong>{user?.name || "Pengguna"}</strong> ({user?.email})</p>
+            <p>Halo, <strong>{user?.name || "Pengguna"}</strong></p>
             <p className="text-sm text-gray-500">Status Akun: {user?.accountStatus}</p>
 
             <button

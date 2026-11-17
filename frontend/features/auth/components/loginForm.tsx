@@ -35,6 +35,7 @@ export function LoginForm() {
             <input type="password" placeholder="Masukan Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
 
             <button type="submit" disabled={loading} >{loading ? "Masuk..." : "Login"}</button>
+            <a href="/register">Belum memiliki akun? Daftar sekarang!</a>
         </form>
     )
 }

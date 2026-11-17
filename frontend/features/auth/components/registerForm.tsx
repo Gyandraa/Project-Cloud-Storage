@@ -37,6 +37,7 @@ export function RegisterForm() {
             <input type="password" placeholder="Masukan Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
 
             <button type="submit" disabled={loading}>{loading ? "Mendaftar..." : "Daftar"}</button>
+            <a href="/login">Sudah memiliki akun? Login sekarang!</a>
         </form>
     )
 }
