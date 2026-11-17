@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useAuth } from "@/context/AuthContext";
 
 export function LoginForm() {
     const router = useRouter()
     const { login, loading, isError } = useLogin()
+    const { refreshUser } = useAuth()
     const [form, setForm] = useState({
         email: "",
         password: ""
@@ -18,10 +20,9 @@ export function LoginForm() {
 
         try {
             await login(form)
+            await refreshUser()
             toast.success("Login Berhasil...")
-            setTimeout(() => {
-                router.push("/dashboard")
-            }, 1500)
+            router.push("/dashboard")
         } catch (err: any) {
             toast.error(err.response?.data?.message || "Login gagal")
         }
