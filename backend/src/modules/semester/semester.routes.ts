@@ -136,6 +136,9 @@ router.patch("/:id", requireAuth, async (req: AuthRequest, res) => {
         if (error.message === "SEMESTER_NOT_FOUND") {
             return res.status(404).json({ message: "Semester tidak ditemukan" });
         }
+        if (error.message === "SEMESTER_ALREADY_EXIST") {
+            return res.status(409).json({ message: "Semester sudah ada" });
+        }
         return res.status(500).json({
             message: "Terjadi kesalahan internal server",
         });
