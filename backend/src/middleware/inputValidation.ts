@@ -27,3 +27,11 @@ export const loginInputValidation = z.object({
         .string({ message: "Password wajib diisi" })
         .min(1, "Password tidak boleh kosong"),
 })
+
+export const createSemesterValidation = z.object({
+    name: z
+        .string({ message: "Input tidak boleh kosong" })
+        .trim()
+        .min(1, "Input tidak boleh kosong")
+        .max(100, "Input maksimal 100 karakter"),
+})

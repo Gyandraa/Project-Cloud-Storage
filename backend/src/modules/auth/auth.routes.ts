@@ -34,7 +34,6 @@ router.post("/register", registerLimiter, async (req, res) => {
             });
         }
 
-        console.error("Register Error:", error);
         return res.status(500).json({
             message: "Terjadi kesalahan internal server",
         });
@@ -79,7 +78,6 @@ router.post("/login", loginLimiter, async (req, res) => {
                 message: "Akun Anda belum aktif atau ditangguhkan",
             });
         }
-        console.error("Login Error:", error);
         return res.status(500).json({
             message: "Terjadi kesalahan internal server",
         });
@@ -97,7 +95,6 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
             data: user,
         });
     } catch (error) {
-        console.error("Get Me Error:", error);
         return res.status(500).json({ message: "Terjadi kesalahan internal server" });
     }
 })
@@ -117,7 +114,6 @@ router.post("/logout", requireAuth, async (req: AuthRequest, res) => {
             message: "Logout berhasil",
         });
     } catch (error) {
-        console.error("Logout Error:", error);
         return res.status(500).json({ message: "Terjadi kesalahan internal server" });
     }
 }
