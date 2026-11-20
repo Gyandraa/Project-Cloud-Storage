@@ -28,7 +28,7 @@ export const loginInputValidation = z.object({
         .min(1, "Password tidak boleh kosong"),
 })
 
-export const createSemesterValidation = z.object({
+export const inputSemesterValidation = z.object({
     name: z
         .string({ message: "Input tidak boleh kosong" })
         .trim()

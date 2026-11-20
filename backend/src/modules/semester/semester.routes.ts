@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createSemesterValidation } from "../../middleware/inputValidation";
+import { inputSemesterValidation } from "../../middleware/inputValidation";
 import { requireAuth, AuthRequest } from "../../middleware/requireAuth";
 import { deletedSemester, getSemester, createSemester, updateSemester } from "./semester.service";
 const router = Router()
 
 router.post("/", requireAuth, async (req: AuthRequest, res) => {
     try {
-        const validationResult = createSemesterValidation.safeParse(req.body)
+        const validationResult = inputSemesterValidation.safeParse(req.body)
 
         if (!validationResult.success) {
             const firstError = validationResult.error.issues[0]?.message || "Input tidak valid";
@@ -99,7 +99,7 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
 
 router.patch("/:id", requireAuth, async (req: AuthRequest, res) => {
     try {
-        const validationResult = createSemesterValidation.safeParse(req.body)
+        const validationResult = inputSemesterValidation.safeParse(req.body)
 
         if (!validationResult.success) {
             const firstError = validationResult.error.issues[0]?.message || "Input tidak valid";
