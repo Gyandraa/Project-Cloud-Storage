@@ -80,3 +80,27 @@ export async function getCourses(userId: string, semesterId: string) {
 
     }
 }
+
+export async function deletedCourses(data: { id: string, userId: string }) {
+    try {
+        const courses = await prisma.course.findFirst({
+            where: { id: data.id, userId: data.userId, deletedAt: null }
+        })
+        if (!courses) {
+            throw new Error("COURSES_NOT_FOUND")
+        }
+
+        const deletedCouses = await prisma.course.update({
+            where: {
+                id_userId: { id: data.id, userId: data.userId }
+            }, data: {
+                deletedAt: new Date()
+            }
+        })
+
+        return deletedCouses
+
+    } catch (error) {
+        throw error
+    }
+}
