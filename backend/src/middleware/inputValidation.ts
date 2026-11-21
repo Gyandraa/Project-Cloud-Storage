@@ -1,16 +1,24 @@
-import { z } from "zod"
+import { z } from "zod";
+
+export const nameSchema = z
+    .string({ message: "Nama wajib diisi" })
+    .trim()
+    .min(1, "Nama tidak boleh kosong")
+    .max(100, "Nama maksimal 100 karakter");
+
+export const emailSchema = z
+    .string({ message: "Email wajib diisi" })
+    .trim()
+    .toLowerCase()
+    .email("Format email tidak valid");
+
+export const idSchema = z
+    .string({ message: "ID wajib diisi" })
+    .uuid("Format ID tidak valid");
 
 export const registerInputValidation = z.object({
-    name: z
-        .string({ message: "Nama wajib diisi" })
-        .trim()
-        .min(1, "Nama tidak boleh kosong")
-        .max(100, "Nama maksimal 100 karakter"),
-    email: z
-        .string({ message: "Email wajib diisi" })
-        .trim()
-        .toLowerCase()
-        .email("Format email tidak valid"),
+    name: nameSchema,
+    email: emailSchema,
     password: z
         .string({ message: "Password wajib diisi" })
         .min(8, "Password minimal 8 karakter")
@@ -18,20 +26,20 @@ export const registerInputValidation = z.object({
 });
 
 export const loginInputValidation = z.object({
-    email: z
-        .string({ message: "Email wajib diisi" })
-        .trim()
-        .toLowerCase()
-        .email("Format email tidak valid"),
+    email: emailSchema,
     password: z
         .string({ message: "Password wajib diisi" })
         .min(1, "Password tidak boleh kosong"),
-})
+});
 
 export const inputSemesterValidation = z.object({
-    name: z
-        .string({ message: "Input tidak boleh kosong" })
-        .trim()
-        .min(1, "Input tidak boleh kosong")
-        .max(100, "Input maksimal 100 karakter"),
-})
+    name: nameSchema,
+});
+
+export const renameValidation = inputSemesterValidation;
+
+export const createCourseValidation = z.object({
+    name: nameSchema,
+    semesterId: idSchema,
+});
+

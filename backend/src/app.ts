@@ -4,6 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./modules/auth/auth.routes"
 import semesterRoutes from "./modules/semester/semester.routes"
+import coursesRoutes from "./modules/courses/courses.routes"
+
 const app = express();
 
 app.use(
@@ -26,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/semester", semesterRoutes)
+app.use("/api/courses", coursesRoutes)
 
 const PORT = process.env.PORT || 3001;
 

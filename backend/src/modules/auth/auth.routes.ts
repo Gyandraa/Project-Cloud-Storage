@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { registerInputValidation } from "../../middleware/inputValidation";
 import { logoutSession, registerUser } from "./auth.service";
 import { loginLimiter, registerLimiter } from "../../middleware/rateLimiter";
-import { loginInputValidation } from "../../middleware/inputValidation";
-import { loginUser } from "./auth.service";
+import { loginInputValidation, registerInputValidation } from "../../middleware/inputValidation";
+import { loginUser, getCurrentUser } from "./auth.service";
 import { requireAuth, AuthRequest } from "../../middleware/requireAuth";
-import { getCurrentUser } from "./auth.service";
 
 const router = Router();
 
